@@ -1,0 +1,15 @@
+{% extends 'product/index.html' %}
+{% load static %}
+{% block content%}
+{% for offer in offer_list %}
+<div class="card-main" style="width: 18rem;">
+    <img src="{% static 'product/hm.png' %}" class="card-img-top" alt="", id="logo-img">
+    <span class='image-tag' >{{ offer.sponsor_name}}</span>
+    <div class="card-body">
+      <h5 class="card-title">{{ offer.title }}</h5>
+      <p class="card-text"></p>
+      <a href="#">Offer expires on {{ offer.end_time }}</a>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

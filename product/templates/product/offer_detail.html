@@ -1,0 +1,12 @@
+{% extends 'product/index.html' %}
+{% load static %}
+{% block content %}
+<div class="card-full" style="width: 18rem;">
+    <img src="{% static 'product/hm.png' %}" class="card-img-top" >
+    <div class="card-body">
+      <h5 class="card-title">{{ offer.title }}</h5>
+      <p class="card-text">{{ offer.sponsor_name}}</p>
+      <a href="#">Offer expires on {{ offer.end_time}}</a>
+    </div>
+</div>
+{% endblock content %}

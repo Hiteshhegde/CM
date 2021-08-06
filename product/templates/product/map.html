@@ -1,0 +1,66 @@
+{% extends 'product/index.html' %}
+{% load static %}
+{% block content%}
+<div id='map'>
+</div>
+<script src="https://unpkg.com/es6-promise@4.2.4/dist/es6-promise.auto.min.js"></script>
+<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFuZXNraW4iLCJhIjoiY2tyeTR4aHEzMHd4MjJvazN6cjF6eHlvaiJ9.b-7Vs-beVVd0LHZXruRl_w';
+    var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    mapboxClient.geocoding
+    .forwardGeocode({
+        query: 'Los Angeles , CA',
+        autocomplete: false,
+        limit: 1
+    })
+    .send()
+    .then(function (response) {
+    if (
+        response &&
+        response.body &&
+        response.body.features &&
+        response.body.features.length
+    ) {
+        var feature = response.body.features[0];
+
+        var map = new mapboxgl.Map({
+        container: 'map',// container ID
+        style: 'mapbox://styles/mapbox/streets-v10',//style url
+        center: feature.center,// starting position
+        zoom: 9 // starting zoom
+        });
+
+        // create the popup
+        var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        'Purple Pig'
+        );
+
+        // create DOM element for the marker
+        var el = document.createElement('div');
+        el.id = 'marker';
+
+        //Create a marker and add it to the map
+        new mapboxgl.Marker(el)
+        .setLngLat(feature.center)
+        .setPopup(popup)//sets a popup on this marker
+        .addTo(map);
+
+        //map.addControl(
+        //new MapboxGeocoder({
+        //accessToken: mapboxgl.accessToken,
+        //mapboxgl: mapboxgl
+        //})
+        //);
+        map.addControl(new mapboxgl.NavigationControl());
+
+        //var marker = new mapboxgl.Marker() // Initialize a new marker
+        //.setLngLat([-122.25948, 37.87221]) // Marker [lng, lat] coordinates
+        //.addTo(map); // Add the marker to the map
+        // Add zoom and rotation controls to the map.
+        // Create a marker and add it to the map.
+    }
+    });
+</script>
+
+{% endblock content %}
